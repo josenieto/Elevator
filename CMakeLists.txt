@@ -7,6 +7,8 @@ enable_testing()
 file(GLOB sources ./src/*.cpp ./inc/*.h)
 set(${PROJECT_NAME} ${sources})
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)

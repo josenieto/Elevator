@@ -1,26 +1,9 @@
 #include "sensors.h"
 #include <algorithm>
 #include <iostream>
-
-void LimitSwitchPos::update()
-{
-    if(this->control->getPosive_switch() &&
-       this->control->getMotor()->getMovement() == Movement::POSITIVE )
-    {
-        this->control->getMotor()->setStart(false);
-        std::cout << "Limite Positivo Actuado" << std::endl;
-    }
-};
-
-void LimitSwitchNeg::update()
-{
-    if(this->control->getNegative_switch()  &&
-       this->control->getMotor()->getMovement() == Movement::NEGATIVE)
-    {
-        this->control->getMotor()->setStart(false);
-        std::cout << "Limite Negativo Actuado" << std::endl;
-    }
-};
+/*
+ *       Control Switches
+ */
 
 void Control::add(ISensor *is)
 {
@@ -46,21 +29,26 @@ void Control::notifyAll()
     }
 };
 
-bool Control::getPosive_switch()
+/*
+ *       Limit Switches
+ */
+void LimitSwitch::update()
 {
-    return positive_switch;
-}
-
-bool Control::getNegative_switch()
-{
-    return negative_switch;
-}
-
-void Control::setPositive_switch(bool val)
-{
-    this->positive_switch = val;
-}
-void Control::setNegative_switch(bool val)
-{
-    this->negative_switch = val;
+    if(this->getSignal())
+    {
+        this->control->getMotor()->setStart(false);
+        std::cout << "Limite Actuado" << std::endl;
+    }
 };
+
+/*
+ *        Floor Switches
+ */
+
+void FloorSwitch::update()
+{
+    if(this->getSignal())
+        std::cout << "Ha pasado por el piso X" << std::endl;
+};
+
+
